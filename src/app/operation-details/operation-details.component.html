@@ -1,0 +1,23 @@
+<div class="operation-details">
+  <mat-list>
+    <h1 mat-header>
+      <span [ngStyle]="{'color': operation.operationType == 'F' ? 'red' : 'blue'}">█</span>&nbsp;{{operation.code}}
+      &mdash; {{operation.message}}
+    </h1>
+    <mat-list-item>
+      Straße: {{operation.location.street}}
+    </mat-list-item>
+    <mat-list-item>
+      Ort: {{operation.location.town}}<span *ngIf="operation.location.district">&nbsp;- {{operation.location.district}}</span>
+    </mat-list-item>
+    <mat-list-item>
+      Einsatzort: {{operation.place}}
+    </mat-list-item>
+    <mat-list-item>
+      Objekt: {{operation.object}}
+    </mat-list-item>
+    <mat-list-item>
+      Bemerkung: {{operation.notice}}
+    </mat-list-item>
+  </mat-list>
+</div>

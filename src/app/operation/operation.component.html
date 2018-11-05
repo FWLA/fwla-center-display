@@ -1,0 +1,9 @@
+<app-map [coordinate]="operation.location.coordinate" [zoom]="16"></app-map>
+<mat-grid-list class="operations-grid" cols="6" rowHeight="fit">
+  <mat-grid-tile [colspan]="1" [rowspan]="1">
+    <app-icons [operation]="operation" [weather]="weather"></app-icons>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="5" [rowspan]="1">
+    <app-operation-details [operation]="operation"></app-operation-details>
+  </mat-grid-tile>
+</mat-grid-list>
