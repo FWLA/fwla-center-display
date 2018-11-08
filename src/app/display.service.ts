@@ -8,7 +8,7 @@ import { DisplayState } from './display-state';
 })
 export class DisplayService {
 
-  private displayUrl = '/api/display';
+  private displayUrl = '/api/v1/display';
 
   private devDisplayState: DisplayState = {
     state: 'operation',
