@@ -1,5 +1,5 @@
-import { Weather } from "./weather";
-import { Operation } from "./operation";
+import { Weather } from './weather';
+import { Operation } from './operation';
 
 export class DisplayState {
   state: string;

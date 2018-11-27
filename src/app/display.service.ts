@@ -12,40 +12,66 @@ export class DisplayService {
 
   private devDisplayState: DisplayState = {
     state: 'operation',
+    weather: {
+      wind: {
+        speed: 3.6,
+        degrees: 50
+      },
+      coordinate: {
+        latitude: 49.58,
+        longitude: 8.5
+      },
+      temperature: 3.07,
+      iconCode: '03n',
+      description: 'Überwiegend bewölkt'
+    },
     operation: {
-      id: "1",
-      time: "",
-      place: "Bahndamm",
-      object: null,
+      id: '1170022993',
+      time: '2017-05-24T13:09:39Z',
+      place: null,
+      object: 'KEGELZENTRUM HEIDE',
       location: {
-        street: "Florianstraße 4",
-        town: "Lampertheim",
-        district: "Hofheim",
+        street: 'Heide',
+        town: 'Lampertheim',
+        district: 'Lampertheim',
         coordinate: {
-          latitude: 49.590176,
-          longitude: 8.487903
+          latitude: 49.58342036,
+          longitude: 8.50401432
         }
       },
-      code: "FY-2",
-      message: "Feuer klein",
-      notice: "Bahnmanager unterwegs",
-      operationType: "F",
-      isTraining: false,
-      closed: false
-    },
-    weather: {
-      temperature: 1,
-      coordinate: {
-        latitude: 49.590176,
-        longitude: 8.487903
+      code: 'F-2 Y',
+      message: 'unklarer Brand',
+      notice: 'Gebäude nebendran',
+      closed: false,
+      resourceKeys: [
+        'LAMP 01',
+        'LAMP 02',
+        'LAMP 1/10-1',
+        'LAMP 1/25-1',
+        'LAMP 1/44-1',
+        'LAMPER 1'
+      ],
+      operationKey: {
+        id: '630104af-da4f-4ca0-917c-e9f817095bcb',
+        key: 'F-2 Y',
+        code: 'F-2 Y',
+        type: 'FIRE',
+        dangerToLife: true
       },
-      description: "Windy",
-      iconCode: "1n",
-      wind: {
-        speed: 5,
-        degrees: 120
-      }
-    },
+      realEstate: {
+        id: '659ff264-49e6-4e7c-bf92-acbe9c096d7a',
+        name: 'Kegelzentrum Heide',
+        key: 'KEGELZENTRUM HEIDE',
+        information: 'Gasstation in der Nähe!',
+        address: {
+          street: null,
+          zip: '68623',
+          town: 'Lampertheim',
+          district: null
+        }
+      },
+      training: false
+    }
   };
 
   constructor(private http: HttpClient) { }

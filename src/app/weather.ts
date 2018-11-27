@@ -1,5 +1,5 @@
-import { Coordinate } from "./coordinate";
-import { Wind } from "./wind";
+import { Coordinate } from './coordinate';
+import { Wind } from './wind';
 
 export class Weather {
   coordinate: Coordinate;

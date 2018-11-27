@@ -1,0 +1,11 @@
+<div *ngIf="!!operation.object || !!operation.realEstate">
+  <h3>Objektinformationen</h3>
+  <dl>
+  <div *ngIf="!!operation.realEstate">
+    <dt>Objekt</dt>
+    <dd>{{operation.realEstate.name}}</dd>
+    <dt *ngIf="!!operation.realEstate.information">Informationen</dt>
+    <dd>{{operation.realEstate.information}}</dd>
+  </div>
+  </dl>
+</div>

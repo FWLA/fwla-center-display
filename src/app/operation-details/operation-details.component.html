@@ -8,7 +8,7 @@
     <p>Ort: {{operation.location.town}}<span *ngIf="operation.location.district">&nbsp;-
         {{operation.location.district}}</span></p>
     <p>Einsatzort: {{operation.place}}</p>
-    <p>Objekt: {{operation.object}}</p>
+    <app-real-estate [operation]="operation"></app-real-estate>
     <p>Bemerkung: {{operation.notice}}</p>
   </blockquote>
 </div>

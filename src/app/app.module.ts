@@ -8,6 +8,7 @@ import { OperationComponent } from './operation/operation.component';
 import { MapComponent } from './map/map.component';
 import { IconsComponent } from './icons/icons.component';
 import { OperationDetailsComponent } from './operation-details/operation-details.component';
+import { RealEstateComponent } from './real-estate/real-estate.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { OperationDetailsComponent } from './operation-details/operation-details
     OperationComponent,
     MapComponent,
     IconsComponent,
-    OperationDetailsComponent
+    OperationDetailsComponent,
+    RealEstateComponent
   ],
   imports: [
     BrowserModule,
