@@ -14,8 +14,11 @@ export class IconsComponent {
   @Input() weather: Weather;
 
   isDangerToLife(): boolean {
-    if (!this.operation || !this.operation.code) {
+    if (!this.operation) {
       return false;
+    }
+    if (!!this.operation.operationKey) {
+      return this.operation.operationKey.dangerToLife;
     }
     return this.operation.code.toLowerCase().indexOf('y') !== -1;
   }
