@@ -1,6 +1,6 @@
 <div class="operation-details">
   <h1 mat-header>
-    <span [ngStyle]="{'color': operation.operationType == 'F' ? 'red' : 'blue'}">█</span>&nbsp;{{operation.code}}
+    <span [ngStyle]="{'color': getOperationColor()}">█</span>&nbsp;{{operation.code}}
     &mdash; {{operation.message}}
   </h1>
   <blockquote class="blockquote">

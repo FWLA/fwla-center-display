@@ -8,4 +8,11 @@ import { Operation } from '../operation';
 })
 export class OperationDetailsComponent {
   @Input() operation: Operation;
+
+  getOperationColor(): string {
+    if (!!this.operation.operationKey) {
+      return this.operation.operationKey.type === 'FIRE' ? 'red' : 'blue';
+    }
+    return this.operation.code.startsWith('F') ? 'red' : 'blue';
+  }
 }
