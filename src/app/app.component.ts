@@ -38,10 +38,12 @@ export class AppComponent implements OnInit {
       return;
     }
 
-    // when operation id changes
-    if (this.displayState.operation.id !== displayState.operation.id) {
-      this.newState(displayState);
-      return;
+    if (displayState.state === 'OPERATION') {
+      // when operation id changes
+      if (this.displayState.operation.id !== displayState.operation.id) {
+        this.newState(displayState);
+        return;
+      }
     }
   }
 

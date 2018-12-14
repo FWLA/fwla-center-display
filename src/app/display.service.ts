@@ -10,7 +10,7 @@ export class DisplayService {
 
   private displayUrl = '/api/v1/display';
 
-  private devDisplayState: DisplayState = {
+  private devOperationDisplayState: DisplayState = {
     state: 'operation',
     weather: {
       wind: {
@@ -74,12 +74,23 @@ export class DisplayService {
     }
   };
 
+  private devIdleDisplayState: DisplayState = {
+    state: 'IDLE',
+    operation: null,
+    weather: null
+  }
+
   constructor(private http: HttpClient) { }
 
   getDisplay(): Observable<DisplayState> {
     if (!isDevMode()) {
       return this.http.get<DisplayState>(this.displayUrl);
     }
-    return of(this.devDisplayState);
+    var millis = new Date().getTime();
+    var seconds = Math.floor(millis / 1000);
+    if (Math.floor(seconds / 10) % 2 == 0) {
+      return of(this.devIdleDisplayState);
+    }
+    return of(this.devOperationDisplayState);
   }
 }
