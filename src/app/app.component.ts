@@ -50,15 +50,4 @@ export class AppComponent implements OnInit {
   private newState(displayState: DisplayState) {
     this.displayState = displayState;
   }
-
-  options = {
-    layers: [
-      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 18,
-        attribution: '...'
-      })
-    ],
-    zoom: 17,
-    center: latLng(49.590176, 8.487903)
-  };
 }
