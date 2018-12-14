@@ -11,7 +11,7 @@ export class DisplayService {
   private displayUrl = '/api/v1/display';
 
   private devOperationDisplayState: DisplayState = {
-    state: 'operation',
+    state: 'OPERATION',
     weather: {
       wind: {
         speed: 3.6,
