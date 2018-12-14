@@ -6,7 +6,7 @@ LABEL maintainer="benjamin.ihrig@gmail.com"
 
 RUN npm install -g serve
 
-ADD ./dist/fwla-center-display ./app
+COPY ./dist/fwla-center-display ./app
 
 EXPOSE 5000
 
