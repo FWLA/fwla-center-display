@@ -1,4 +1,4 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div class="container-fluid" [ngSwitch]="displayState.state">
+<div class="container-fluid" *ngIf="!!displayState" [ngSwitch]="displayState.state">
   <app-operation *ngSwitchCase="'OPERATION'" [operation]="displayState.operation" [weather]="displayState.weather"></app-operation>
 </div>
