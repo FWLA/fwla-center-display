@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { latLng, MapOptions, tileLayer, Layer, marker } from 'leaflet';
+import { latLng, MapOptions, tileLayer, Layer, marker, icon } from 'leaflet';
 import { Coordinate } from '../coordinate';
 
 @Component({
@@ -20,7 +20,14 @@ export class MapComponent {
 
     this.markers = [];
     this.markers.push(marker(
-      latLng(value.latitude, value.longitude), {}
+      latLng(value.latitude, value.longitude), {
+        icon: icon({
+          iconSize: [ 25, 41 ],
+          iconAnchor: [ 13, 41 ],
+          iconUrl: 'assets/marker-icon.png',
+          shadowUrl: 'assets/marker-shadow.png'
+        })
+      }
     ));
   }
 
