@@ -1,6 +1,7 @@
 import { Location } from './location';
 import { OperationKey } from './operation-key';
 import { RealEstate } from './real-estate';
+import { Resource } from './resource';
 
 export class Operation {
   closed: boolean;
@@ -14,6 +15,7 @@ export class Operation {
   place: string;
   realEstate: RealEstate;
   resourceKeys: string[];
+  resources: Resource[];
   time: string;
   training: boolean;
 }

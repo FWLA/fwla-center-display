@@ -1,0 +1,9 @@
+<div class="md-chips">
+  <div class="md-chip" *ngFor="let resource of operation.resources">
+    <div class="md-chip-icon green">
+      <div *ngIf="resource.inService; else outOfService">✓</div>
+      <ng-template #outOfService>✗</ng-template>
+    </div>
+    {{resource.name}}
+  </div>
+</div>

@@ -9,6 +9,7 @@ import { MapComponent } from './map/map.component';
 import { IconsComponent } from './icons/icons.component';
 import { OperationDetailsComponent } from './operation-details/operation-details.component';
 import { RealEstateComponent } from './real-estate/real-estate.component';
+import { ResourcesComponent } from './resources/resources.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { RealEstateComponent } from './real-estate/real-estate.component';
     MapComponent,
     IconsComponent,
     OperationDetailsComponent,
-    RealEstateComponent
+    RealEstateComponent,
+    ResourcesComponent
   ],
   imports: [
     BrowserModule,
