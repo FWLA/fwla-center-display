@@ -16,6 +16,7 @@ export class Operation {
   realEstate: RealEstate;
   resourceKeys: string[];
   resources: Resource[];
+  ambulanceCalled: boolean;
   time: string;
   training: boolean;
 }

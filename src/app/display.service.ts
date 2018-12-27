@@ -96,6 +96,7 @@ export class DisplayService {
           district: null
         }
       },
+      ambulanceCalled: true,
       training: false
     }
   };
