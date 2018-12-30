@@ -19,4 +19,5 @@ export class Operation {
   ambulanceCalled: boolean;
   time: string;
   training: boolean;
+  directions: any;
 }

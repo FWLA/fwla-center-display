@@ -1,1 +1,8 @@
-<div class="leaflet-map" leaflet [leafletOptions]="mapOptions" [leafletLayers]="markers"></div>
+<div class="row leaflet-map">
+    <div class="col-md-7 map left">
+        <div class="map" leaflet [leafletOptions]="routeMapOptions" [leafletLayers]="routeMapLayers" (leafletMapReady)="onRouteMapReady($event)"></div>
+    </div>
+    <div class="col-md-5 map right">
+        <div class="map" leaflet [leafletOptions]="closeMapOptions" [leafletLayers]="closeMapLayers" (leafletMapReady)="onCloseMapReady($event)"></div>
+    </div>
+</div>
