@@ -147,6 +147,7 @@ export class MapComponent {
         mapTileLayer()
       ],
       zoom: zoom,
+      zoomControl: false,
       center: leaflet.latLng(0, 0)
     };
   }
