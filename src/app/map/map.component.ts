@@ -1,20 +1,29 @@
 import { Component, Input } from '@angular/core';
-import { icon, geoJSON, latLng, Layer, MapOptions, marker, tileLayer, Map, FeatureGroup, featureGroup, PointExpression, Icon } from 'leaflet';
+import * as leaflet from 'leaflet';
 import { Coordinate } from '../coordinate';
 import { Operation } from '../operation';
 
-const padding: PointExpression = [10, 10];
-const markerIcon: Icon = icon({
-  iconSize: [ 25, 41 ],
-  iconAnchor: [ 13, 41 ],
+const padding: leaflet.PointExpression = [10, 10];
+const redMarkerIcon: leaflet.Icon = leaflet.icon({
+  iconSize: [25, 41],
+  iconAnchor: [13, 41],
   shadowSize: [41, 41],
   iconUrl: 'assets/images/marker-icon-2x-red.png',
   shadowUrl: 'assets/images/marker-shadow.png'
 });
-const mapTileLayer: Layer = tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 18,
-  attribution: '...'
-})
+const greenMarkerIcon: leaflet.Icon = leaflet.icon({
+  iconSize: [25, 41],
+  iconAnchor: [13, 41],
+  shadowSize: [41, 41],
+  iconUrl: 'assets/images/marker-icon-2x-green.png',
+  shadowUrl: 'assets/images/marker-shadow.png'
+});
+const mapTileLayer = function () {
+  return leaflet.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    attribution: 'openstreetmap.org'
+  });
+};
 
 @Component({
   selector: 'app-map',
@@ -23,41 +32,68 @@ const mapTileLayer: Layer = tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}
 })
 export class MapComponent {
 
-  closeMap: Map;
-  closeMapOptions: MapOptions;
-  closeMapLayers: Layer[] = [];
-  closeMapFeatureGroup: FeatureGroup;
+  private _operation: Operation;
+  private _home: Coordinate;
 
-  routeMap: Map;
-  routeMapOptions: MapOptions;
-  routeMapLayers: Layer[] = [];
-  routeMapFeatureGroup: FeatureGroup;
+  closeMap: leaflet.Map;
+  closeMapOptions: leaflet.MapOptions;
+  closeMapLayers: leaflet.Layer[] = [];
+  closeMapFeatureGroup: leaflet.FeatureGroup;
+
+  routeMap: leaflet.Map;
+  routeMapOptions: leaflet.MapOptions;
+  routeMapLayers: leaflet.Layer[] = [];
+  routeMapFeatureGroup: leaflet.FeatureGroup;
+
+  @Input() set home(home: Coordinate) {
+    this._home = home;
+    this.valueChange();
+  }
 
   @Input() set operation(operation: Operation) {
+    this._operation = operation;
+    this.valueChange();
+  }
+
+  private valueChange() {
+
+    if (this._home == null || this._operation == null) {
+      return;
+    }
+
+
     if (!this.closeMapOptions) {
       this.init();
     }
 
-    var value = operation.location.coordinate;
+    const value = this._operation.location.coordinate;
 
-    this.closeMapOptions.center = latLng(value.latitude, value.longitude);
-    this.routeMapOptions.center = latLng(value.latitude, value.longitude);
+    this.closeMapOptions.center = leaflet.latLng(value.latitude, value.longitude);
+    this.routeMapOptions.center = leaflet.latLng(value.latitude, value.longitude);
 
     this.closeMapLayers = [];
     this.routeMapLayers = [];
 
-    this.closeMapLayers.push(marker(
-      latLng(value.latitude, value.longitude), {
-        icon: markerIcon
+    this.closeMapLayers.push(leaflet.marker(
+      leaflet.latLng(value.latitude, value.longitude), {
+        icon: redMarkerIcon
       }
     ));
-    this.routeMapLayers.push(marker(
-      latLng(value.latitude, value.longitude), {
-        icon: markerIcon
+    this.routeMapLayers.push(leaflet.marker(
+      leaflet.latLng(this._home.latitude, this._home.longitude), {
+        icon: greenMarkerIcon
+      }
+    ));
+    this.routeMapLayers.push(leaflet.marker(
+      leaflet.latLng(value.latitude, value.longitude), {
+        icon: redMarkerIcon
       }
     ));
 
-    this.routeMapLayers.push(geoJSON(operation.directions, {
+    this.closeMapLayers.push(leaflet.geoJSON(this._operation.directions, {
+      style: this.styleFeature
+    }));
+    this.routeMapLayers.push(leaflet.geoJSON(this._operation.directions, {
       style: this.styleFeature
     }));
 
@@ -69,12 +105,12 @@ export class MapComponent {
     }
   }
 
-  onCloseMapReady(map: Map) {
+  onCloseMapReady(map: leaflet.Map) {
     this.closeMap = map;
     this.fitCloseMapBounds();
   }
 
-  onRouteMapReady(map: Map) {
+  onRouteMapReady(map: leaflet.Map) {
     this.routeMap = map;
     this.fitRouteMapBounds();
   }
@@ -83,7 +119,7 @@ export class MapComponent {
   }
 
   private fitRouteMapBounds() {
-    this.routeMapFeatureGroup = featureGroup(this.routeMapLayers);
+    this.routeMapFeatureGroup = leaflet.featureGroup(this.routeMapLayers);
     this.routeMap.fitBounds(this.routeMapFeatureGroup.getBounds(), {
       padding: padding
     });
@@ -94,26 +130,23 @@ export class MapComponent {
       fillColor: 'red',
       weight: 5,
       opacity: .6,
-      color: 'red',  //Outline color
+      color: 'red',  // Outline color
       fillOpacity: 0.7
-    }
+    };
   }
 
   private init() {
-    this.closeMapOptions = this.baseMapOptions(18);
+    this.closeMapOptions = this.baseMapOptions(17);
     this.routeMapOptions = this.baseMapOptions(16);
   }
 
-  private baseMapOptions(zoom: number): MapOptions {
+  private baseMapOptions(zoom: number): leaflet.MapOptions {
     return {
       layers: [
-        tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: zoom,
-          attribution: '...'
-        })
+        mapTileLayer()
       ],
-      zoom: 15,
-      center: latLng(0, 0)
+      zoom: zoom,
+      center: leaflet.latLng(0, 0)
     };
   }
 }

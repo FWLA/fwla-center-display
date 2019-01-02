@@ -1,6 +1,6 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div class="container-fluid" *ngIf="!!displayState && displayState.state !== 'IDLE'; else screensaver" [ngSwitch]="displayState.state">
-  <app-operation *ngSwitchCase="'OPERATION'" [operation]="displayState.operation" [weather]="displayState.weather"></app-operation>
+  <app-operation *ngSwitchCase="'OPERATION'" [operation]="displayState.operation" [weather]="displayState.weather" [home]="displayState.home"></app-operation>
 </div>
 
 <ng-template #screensaver>

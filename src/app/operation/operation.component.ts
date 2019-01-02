@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Operation } from '../operation';
 import { Weather } from '../weather';
+import { Coordinate } from '../coordinate';
 
 @Component({
   selector: 'app-operation',
@@ -10,5 +11,6 @@ import { Weather } from '../weather';
 export class OperationComponent {
 
   @Input() operation: Operation;
+  @Input() home: Coordinate;
   @Input() weather: Weather;
 }
