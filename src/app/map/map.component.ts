@@ -116,6 +116,7 @@ export class MapComponent {
   }
 
   private fitCloseMapBounds() {
+    this.closeMap.panTo(this.closeMapOptions.center);
   }
 
   private fitRouteMapBounds() {
