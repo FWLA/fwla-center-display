@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Operation } from '../operation';
+import { Operation } from '../../model/Operation';
 
 @Component({
   selector: 'app-operation-details',

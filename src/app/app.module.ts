@@ -1,15 +1,15 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-
 import { AppComponent } from './app.component';
-import { OperationComponent } from './operation/operation.component';
-import { MapComponent } from './map/map.component';
-import { IconsComponent } from './icons/icons.component';
-import { OperationDetailsComponent } from './operation-details/operation-details.component';
-import { RealEstateComponent } from './real-estate/real-estate.component';
-import { ResourcesComponent } from './resources/resources.component';
+import { IconsComponent } from './components/icons/icons.component';
+import { MapComponent } from './components/map/map.component';
+import { OperationDetailsComponent } from './components/operation-details/operation-details.component';
+import { OperationComponent } from './components/operation/operation.component';
+import { RealEstateComponent } from './components/real-estate/real-estate.component';
+import { ResourcesComponent } from './components/resources/resources.component';
+
 
 @NgModule({
   declarations: [

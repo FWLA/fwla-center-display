@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { Operation } from '../operation';
-import { DisplayState } from '../display-state';
-import { Weather } from '../weather';
+import { Operation } from '../../model/Operation';
+import { Weather } from '../../model/Weather';
 
 @Component({
   selector: 'app-icons',

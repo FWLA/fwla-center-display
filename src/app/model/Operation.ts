@@ -1,7 +1,7 @@
-import { Location } from './location';
-import { OperationKey } from './operation-key';
-import { RealEstate } from './real-estate';
-import { Resource } from './resource';
+import { Location } from './Location';
+import { OperationKey } from './OperationKey';
+import { RealEstate } from './RealEstate';
+import { Resource } from './Resource';
 
 export class Operation {
   closed: boolean;

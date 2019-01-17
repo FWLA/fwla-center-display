@@ -1,9 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { tileLayer, latLng } from 'leaflet';
-import { DisplayService } from './display.service';
-import { DisplayState } from './display-state';
-import { interval, Observable } from 'rxjs';
-import { startWith, switchMap, map } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { interval } from 'rxjs';
+import { startWith, switchMap } from 'rxjs/operators';
+import { DisplayState } from './model/DisplayState';
+import { DisplayService } from './services/display.service';
 
 @Component({
   selector: 'app-root',

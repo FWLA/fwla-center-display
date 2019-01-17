@@ -1,4 +1,4 @@
-import { Address } from './address';
+import { Location } from './Location';
 
 export class RealEstate {
 
@@ -6,5 +6,5 @@ export class RealEstate {
   name: string;
   key: string;
   information: string;
-  address: Address;
+  location: Location;
 }

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import * as leaflet from 'leaflet';
-import { Coordinate } from '../coordinate';
-import { Operation } from '../operation';
+import { Coordinate } from '../../model/Coordinate';
+import { Operation } from '../../model/Operation';
 
 const padding: leaflet.PointExpression = [10, 10];
 const redMarkerIcon: leaflet.Icon = leaflet.icon({
@@ -9,7 +9,7 @@ const redMarkerIcon: leaflet.Icon = leaflet.icon({
   iconAnchor: [13, 41],
   shadowSize: [41, 41],
   iconUrl: 'assets/images/marker-icon-2x-red.png',
-  shadowUrl: 'assets/images/marker-shadow.png'
+  shadowUrl: 'assets/imagesCmarker-shadow.png'
 });
 const greenMarkerIcon: leaflet.Icon = leaflet.icon({
   iconSize: [25, 41],

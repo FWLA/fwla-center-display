@@ -1,0 +1,10 @@
+<div *ngIf="operation.object">
+  <dl>
+  <div>
+    <dt>{{operation.object}}</dt>
+    <dd></dd>
+    <dt *ngIf="!!operation.realEstate.information">{{operation.realEstate.information}}</dt>
+    <dd *ngIf="!!operation.realEstate.information"></dd>
+  </div>
+  </dl>
+</div>
