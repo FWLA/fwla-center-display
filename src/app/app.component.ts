@@ -11,6 +11,7 @@ import { DisplayService } from './services/display.service';
 })
 export class AppComponent implements OnInit {
 
+  private lastServerVersion: string;
   displayState: DisplayState;
 
   constructor(private displayService: DisplayService) { }
@@ -31,6 +32,10 @@ export class AppComponent implements OnInit {
       return;
     }
 
+    if (this.lastServerVersion !== displayState.serverVersion) {
+      window.location.reload();
+    }
+
     // when state changes
     if (this.displayState.state !== displayState.state) {
       this.newState(displayState);
@@ -48,5 +53,8 @@ export class AppComponent implements OnInit {
 
   private newState(displayState: DisplayState) {
     this.displayState = displayState;
+    if (this.lastServerVersion === null) {
+      this.lastServerVersion = displayState.serverVersion;
+    }
   }
 }

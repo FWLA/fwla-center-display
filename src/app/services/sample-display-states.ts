@@ -2,6 +2,7 @@ import { DisplayState } from '../model/DisplayState';
 
 export const devOperationDisplayState: DisplayState = {
   state: 'OPERATION',
+  serverVersion: '0.0.1',
   weather: {
     wind: {
       speed: 3.6,
@@ -247,6 +248,7 @@ export const devOperationDisplayState: DisplayState = {
 
 export const idleDisplayState: DisplayState = {
   state: 'IDLE',
+  serverVersion: '0.0.1',
   operation: null,
   weather: null,
   home: {
