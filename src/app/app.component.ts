@@ -29,6 +29,10 @@ export class AppComponent implements OnInit {
 
   private handleRetValue(displayState: DisplayState) {
     // initial
+    if (!displayState) {
+      return;
+    }
+
     if (!this.displayState || this.displayState === null) {
       this.newState(displayState);
       return;
