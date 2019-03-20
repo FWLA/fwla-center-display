@@ -22,7 +22,9 @@ export class AppComponent implements OnInit {
         startWith(0),
         switchMap(() => this.displayService.getDisplay())
       )
-      .subscribe(res => this.handleRetValue(res));
+      .subscribe(res => this.handleRetValue(res), error => {
+        console.log(error);
+      });
   }
 
   private handleRetValue(displayState: DisplayState) {
