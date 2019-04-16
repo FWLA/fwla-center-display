@@ -249,10 +249,21 @@ export const devOperationDisplayState: DisplayState = {
 export const idleDisplayState: DisplayState = {
   state: 'IDLE',
   serverVersion: '0.0.1',
-  operation: null,
-  weather: null,
   home: {
     latitude: 49.591657,
     longitude: 8.480847
   }
+};
+
+export const textDisplayState: DisplayState = {
+  state: 'TEXT',
+  serverVersion: '0.0.1',
+  home: {
+    latitude: 49.591657,
+    longitude: 8.480847
+  },
+  text: `
+  <h1>Welcome</h1>
+  <p>to this meeting!</p>
+  `
 };

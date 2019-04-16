@@ -3,7 +3,7 @@ import { Injectable, isDevMode } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { DisplayState } from '../model/DisplayState';
 import { catchError } from 'rxjs/operators';
-import { idleDisplayState, devOperationDisplayState } from './sample-display-states';
+import { idleDisplayState, devOperationDisplayState, textDisplayState } from './sample-display-states';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +22,12 @@ export class DisplayService {
     }
     const millis = new Date().getTime();
     const seconds = Math.floor(millis / 1000);
-    if (Math.floor(seconds / 10) % 2 === 0) {
+    const mod = Math.floor(seconds / 10) % 3;
+    if (mod === 0) {
       return of(idleDisplayState);
+    }
+    if (mod === 1) {
+      return of(textDisplayState);
     }
     return of(devOperationDisplayState);
   }

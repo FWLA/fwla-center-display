@@ -9,6 +9,7 @@ import { OperationDetailsComponent } from './components/operation-details/operat
 import { OperationComponent } from './components/operation/operation.component';
 import { RealEstateComponent } from './components/real-estate/real-estate.component';
 import { ResourcesComponent } from './components/resources/resources.component';
+import { TextComponent } from './components/text/text.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { ResourcesComponent } from './components/resources/resources.component';
     IconsComponent,
     OperationDetailsComponent,
     RealEstateComponent,
-    ResourcesComponent
+    ResourcesComponent,
+    TextComponent
   ],
   imports: [
     BrowserModule,
