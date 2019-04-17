@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { DisplayState } from '../model/DisplayState';
 import { catchError } from 'rxjs/operators';
 import { idleDisplayState, devOperationDisplayState, textDisplayState } from './sample-display-states';
+import { isProxy } from '../util/IsProxy';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class DisplayService {
   constructor(private http: HttpClient) { }
 
   getDisplay(): Observable<DisplayState> {
-    if (!isDevMode()) {
+    if (!isDevMode() || isProxy()) {
       return this.http.get<DisplayState>(this.displayUrl).pipe(
         catchError(this.handleError(idleDisplayState))
       );
