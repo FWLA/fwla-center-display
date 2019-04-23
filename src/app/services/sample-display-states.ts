@@ -78,6 +78,7 @@ export const devOperationDisplayState: DisplayState = {
       dangerToLife: true
     },
     realEstate: null,
+    realEstateAdditional: null,
     ambulanceCalled: true,
     training: false,
     directions: {
