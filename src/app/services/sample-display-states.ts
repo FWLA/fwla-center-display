@@ -1,4 +1,18 @@
+import { Observable, of } from 'rxjs';
 import { DisplayState } from '../model/DisplayState';
+
+export const roundRobin = (): Observable<DisplayState> => {
+  const millis = new Date().getTime();
+  const seconds = Math.floor(millis / 1000);
+  const mod = Math.floor(seconds / 10) % 3;
+  if (mod === 0) {
+    return of(idleDisplayState);
+  }
+  if (mod === 1) {
+    return of(textDisplayState);
+  }
+  return of(devOperationDisplayState);
+};
 
 export const devOperationDisplayState: DisplayState = {
   state: 'OPERATION',

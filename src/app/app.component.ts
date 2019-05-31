@@ -55,6 +55,14 @@ export class AppComponent implements OnInit {
         return;
       }
     }
+
+    // when text changes
+    if (displayState.state === 'TEXT') {
+      if (this.displayState.text !== displayState.text) {
+        this.newState(displayState);
+        return;
+      }
+    }
   }
 
   private newState(displayState: DisplayState) {

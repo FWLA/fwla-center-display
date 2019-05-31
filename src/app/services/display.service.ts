@@ -1,10 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { DisplayState } from '../model/DisplayState';
-import { catchError } from 'rxjs/operators';
-import { idleDisplayState, devOperationDisplayState, textDisplayState } from './sample-display-states';
 import { isProxy } from '../util/IsProxy';
+import { idleDisplayState, roundRobin } from './sample-display-states';
 
 @Injectable({
   providedIn: 'root'
@@ -17,20 +17,19 @@ export class DisplayService {
 
   getDisplay(): Observable<DisplayState> {
     if (!isDevMode() || isProxy()) {
-      return this.http.get<DisplayState>(this.displayUrl).pipe(
+      return this.http.get<DisplayState>(this.displayUrl, {
+        observe: 'response',
+      }).pipe(
         catchError(this.handleError(idleDisplayState))
-      );
+      ).pipe(map(response => {
+        if ((<HttpResponse<DisplayState>>response).status === 200) {
+          return (<HttpResponse<DisplayState>>response).body;
+        }
+        return idleDisplayState;
+      }));
     }
-    const millis = new Date().getTime();
-    const seconds = Math.floor(millis / 1000);
-    const mod = Math.floor(seconds / 10) % 3;
-    if (mod === 0) {
-      return of(idleDisplayState);
-    }
-    if (mod === 1) {
-      return of(textDisplayState);
-    }
-    return of(devOperationDisplayState);
+
+    return roundRobin();
   }
 
   /**
