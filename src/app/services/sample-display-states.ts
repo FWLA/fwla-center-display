@@ -1,17 +1,25 @@
 import { Observable, of } from 'rxjs';
 import { DisplayState } from '../model/DisplayState';
+import { HttpResponse } from '@angular/common/http';
 
-export const roundRobin = (): Observable<DisplayState> => {
+export const roundRobin = (): Observable<HttpResponse<DisplayState>> => {
   const millis = new Date().getTime();
   const seconds = Math.floor(millis / 1000);
   const mod = Math.floor(seconds / 10) % 3;
+  var displayState: DisplayState;
   if (mod === 0) {
-    return of(idleDisplayState);
+    displayState = idleDisplayState;
+  } else if (mod === 1) {
+    displayState = textDisplayState;
+  } else {
+    displayState = devOperationDisplayState;
   }
-  if (mod === 1) {
-    return of(textDisplayState);
-  }
-  return of(devOperationDisplayState);
+  var response = new HttpResponse({
+    body: displayState,
+    status: 200
+  });
+
+  return of(response);
 };
 
 export const devOperationDisplayState: DisplayState = {
