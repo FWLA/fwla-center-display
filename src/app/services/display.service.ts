@@ -1,12 +1,11 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
-import { Observable, of, interval } from 'rxjs';
+import { interval, Observable, of } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { DisplayState } from '../model/DisplayState';
 import { isProxy } from '../util/IsProxy';
-import { idleDisplayState, roundRobin } from './sample-display-states';
-import { Location } from '@angular/common';
 import { DisplayStateChangedHandler } from './DisplayStateChangedHandler';
+import { roundRobin } from './sample-display-states';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +18,7 @@ export class DisplayService {
   private lastResponse: HttpResponse<DisplayState>;
   private handlers: DisplayStateChangedHandler[] = [];
 
-  constructor(private http: HttpClient, private location: Location) {
+  constructor(private http: HttpClient) {
     interval(5000)
       .pipe(
         startWith(0),
@@ -43,7 +42,7 @@ export class DisplayService {
 
   private getDisplay(): Observable<HttpResponse<DisplayState>> {
     if (!isDevMode() || isProxy()) {
-      return this.http.get<DisplayState>(this.location.prepareExternalUrl(this.displayUrl), {
+      return this.http.get<DisplayState>(this.displayUrl, {
         observe: 'response',
       }).pipe(
         catchError(this.handleError())

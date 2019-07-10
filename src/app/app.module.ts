@@ -10,7 +10,6 @@ import { OperationComponent } from './components/operation/operation.component';
 import { RealEstateComponent } from './components/real-estate/real-estate.component';
 import { ResourcesComponent } from './components/resources/resources.component';
 import { TextComponent } from './components/text/text.component';
-import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 
 
 @NgModule({
@@ -29,12 +28,7 @@ import { Location, LocationStrategy, PathLocationStrategy } from '@angular/commo
     HttpClientModule,
     LeafletModule.forRoot(),
   ],
-  providers: [
-    Location, {
-      provide: LocationStrategy,
-      useClass: PathLocationStrategy
-    }
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
