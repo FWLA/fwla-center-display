@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import * as leaflet from 'leaflet';
 import { Coordinate } from '../../model/Coordinate';
 import { Operation } from '../../model/Operation';
+import { DirectionsService } from 'src/app/services/directions.service';
 
 const padding: leaflet.PointExpression = [10, 10];
 const redMarkerIcon: leaflet.Icon = leaflet.icon({
@@ -45,6 +46,9 @@ export class MapComponent {
   routeMapLayers: leaflet.Layer[] = [];
   routeMapFeatureGroup: leaflet.FeatureGroup;
 
+  constructor(private directionsService: DirectionsService) {
+  }
+
   @Input() set home(home: Coordinate) {
     this._home = home;
     this.valueChange();
@@ -76,26 +80,24 @@ export class MapComponent {
 
     this.closeMapLayers.push(leaflet.marker(
       leaflet.latLng(value.latitude, value.longitude), {
-        icon: redMarkerIcon
-      }
+      icon: redMarkerIcon
+    }
     ));
     this.routeMapLayers.push(leaflet.marker(
       leaflet.latLng(this._home.latitude, this._home.longitude), {
-        icon: greenMarkerIcon
-      }
+      icon: greenMarkerIcon
+    }
     ));
     this.routeMapLayers.push(leaflet.marker(
       leaflet.latLng(value.latitude, value.longitude), {
-        icon: redMarkerIcon
-      }
+      icon: redMarkerIcon
+    }
     ));
 
-    this.closeMapLayers.push(leaflet.geoJSON(this._operation.directions, {
-      style: this.styleFeature
-    }));
-    this.routeMapLayers.push(leaflet.geoJSON(this._operation.directions, {
-      style: this.styleFeature
-    }));
+    this.directionsService.getDirections(this._home, this._operation.location.coordinate).subscribe(directions => {
+      this.closeMapLayers.push(leaflet.geoJSON(directions));
+      this.routeMapLayers.push(leaflet.geoJSON(directions));
+    });
 
     if (this.closeMap != null) {
       this.fitCloseMapBounds();
