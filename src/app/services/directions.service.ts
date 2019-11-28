@@ -8,7 +8,7 @@ import { Coordinate } from '../model/Coordinate';
 })
 export class DirectionsService {
 
-  private directionsUrl = '/api/v1/geo/directions';
+  private directionsUrl = '/api/v1/services/geo/directions';
 
   constructor(private http: HttpClient) {
   }
