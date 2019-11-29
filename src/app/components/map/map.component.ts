@@ -10,7 +10,7 @@ const redMarkerIcon: leaflet.Icon = leaflet.icon({
   iconAnchor: [13, 41],
   shadowSize: [41, 41],
   iconUrl: 'assets/images/marker-icon-2x-red.png',
-  shadowUrl: 'assets/imagesCmarker-shadow.png'
+  shadowUrl: 'assets/images/marker-shadow.png'
 });
 const greenMarkerIcon: leaflet.Icon = leaflet.icon({
   iconSize: [25, 41],
