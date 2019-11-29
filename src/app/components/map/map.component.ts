@@ -1,8 +1,9 @@
 import { Component, Input } from '@angular/core';
 import * as leaflet from 'leaflet';
+import { DirectionsService } from 'src/app/services/directions.service';
+import { RoadblocksService } from 'src/app/services/roadblocks.service';
 import { Coordinate } from '../../model/Coordinate';
 import { Operation } from '../../model/Operation';
-import { DirectionsService } from 'src/app/services/directions.service';
 
 const padding: leaflet.PointExpression = [10, 10];
 const redMarkerIcon: leaflet.Icon = leaflet.icon({
@@ -18,6 +19,11 @@ const greenMarkerIcon: leaflet.Icon = leaflet.icon({
   shadowSize: [41, 41],
   iconUrl: 'assets/images/marker-icon-2x-green.png',
   shadowUrl: 'assets/images/marker-shadow.png'
+});
+const roadblockMarkerIcon: leaflet.Icon = leaflet.icon({
+  iconSize: [48, 48],
+  iconAnchor: [24, 24],
+  iconUrl: 'assets/images/marker-roadblock.png'
 });
 const mapTileLayer = function () {
   return leaflet.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -46,7 +52,7 @@ export class MapComponent {
   routeMapLayers: leaflet.Layer[] = [];
   routeMapFeatureGroup: leaflet.FeatureGroup;
 
-  constructor(private directionsService: DirectionsService) {
+  constructor(private directionsService: DirectionsService, private roadblocksService: RoadblocksService) {
   }
 
   @Input() set home(home: Coordinate) {
@@ -110,11 +116,15 @@ export class MapComponent {
   onCloseMapReady(map: leaflet.Map) {
     this.closeMap = map;
     this.fitCloseMapBounds();
+
+    this.addRoadblocksToMap(this.routeMap, this.routeMapLayers);
   }
 
   onRouteMapReady(map: leaflet.Map) {
     this.routeMap = map;
     this.fitRouteMapBounds();
+
+    this.addRoadblocksToMap(this.routeMap, this.routeMapLayers);
   }
 
   private fitCloseMapBounds() {
@@ -151,6 +161,28 @@ export class MapComponent {
       zoom: zoom,
       zoomControl: false,
       center: leaflet.latLng(0, 0)
+    };
+  }
+
+  private addRoadblocksToMap(map: L.Map, layers: L.Layer[]) {
+    let bounds = map.getBounds();
+    let sw = this.coord(bounds.getSouthWest());
+    let ne = this.coord(bounds.getNorthEast());
+    this.roadblocksService.getRoadblocks(sw, ne).subscribe(roadblocks => {
+      roadblocks.forEach(roadblock => {
+        layers.push(leaflet.marker(
+          leaflet.latLng(roadblock.coordinate.latitude, roadblock.coordinate.longitude), {
+            icon: roadblockMarkerIcon
+          }
+        ));
+      });
+    });
+  }
+
+  private coord(latLng: L.LatLng): Coordinate {
+    return {
+      latitude: latLng.lat,
+      longitude: latLng.lng
     };
   }
 }

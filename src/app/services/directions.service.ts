@@ -15,7 +15,7 @@ export class DirectionsService {
   constructor(private http: HttpClient) {
   }
 
-  public getDirections(from, to: Coordinate): Observable<any> {
+  public getDirections(from: Coordinate, to: Coordinate): Observable<any> {
     if (!isDevMode() || isProxy()) {
       return this.http.post<any>(this.directionsUrl, {
         from: from,
