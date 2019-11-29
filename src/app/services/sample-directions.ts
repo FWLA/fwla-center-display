@@ -1,6 +1,6 @@
 import { Observable, of } from 'rxjs';
 
-export const directions: Observable<any> = of({
+export const devDirections: Observable<any> = of({
   'type': 'FeatureCollection',
   'bbox': [
     8.416763,

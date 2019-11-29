@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Coordinate } from '../model/Coordinate';
+import { isProxy } from '../util/IsProxy';
+import { devDirections } from './sample-directions';
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +16,12 @@ export class DirectionsService {
   }
 
   public getDirections(from, to: Coordinate): Observable<any> {
-    return this.http.post<any>(this.directionsUrl, {
-      from: from,
-      to: to
-    });
+    if (!isDevMode() || isProxy()) {
+      return this.http.post<any>(this.directionsUrl, {
+        from: from,
+        to: to
+      });
+    }
+    return devDirections;
   }
 }
