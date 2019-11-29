@@ -117,7 +117,7 @@ export class MapComponent {
     this.closeMap = map;
     this.fitCloseMapBounds();
 
-    this.addRoadblocksToMap(this.routeMap, this.routeMapLayers);
+    this.addRoadblocksToMap(this.closeMap, this.closeMapLayers);
   }
 
   onRouteMapReady(map: leaflet.Map) {
@@ -136,16 +136,6 @@ export class MapComponent {
     this.routeMap.fitBounds(this.routeMapFeatureGroup.getBounds(), {
       padding: padding
     });
-  }
-
-  private styleFeature(): any {
-    return {
-      fillColor: 'red',
-      weight: 5,
-      opacity: .6,
-      color: 'red',  // Outline color
-      fillOpacity: 0.7
-    };
   }
 
   private init() {
