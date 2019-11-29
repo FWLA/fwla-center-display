@@ -19,10 +19,15 @@ export class DisplayService {
   private handlers: DisplayStateChangedHandler[] = [];
 
   constructor(private http: HttpClient) {
+
+    let path = window.location.pathname;
+    let pathSegments = path.split('/');
+    let stationId = pathSegments.slice(-1).pop();
+
     interval(5000)
       .pipe(
         startWith(0),
-        switchMap(() => this.getDisplay())
+        switchMap(() => this.getDisplay(stationId))
       )
       .subscribe(res => this.handleRetValue(res), error => {
         console.log(error);
@@ -40,9 +45,9 @@ export class DisplayService {
     }
   }
 
-  private getDisplay(): Observable<HttpResponse<DisplayState>> {
+  private getDisplay(stationId: string): Observable<HttpResponse<DisplayState>> {
     if (!isDevMode() || isProxy()) {
-      return this.http.get<DisplayState>(this.displayUrl, {
+      return this.http.get<DisplayState>(this.displayUrl + '/' + stationId, {
         observe: 'response',
       }).pipe(
         catchError(this.handleError())
