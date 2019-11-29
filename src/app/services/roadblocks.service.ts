@@ -18,10 +18,7 @@ export class RoadblocksService {
 
   public getRoadblocks(sw: Coordinate, ne: Coordinate): Observable<Roadblock[]> {
     if (!isDevMode() || isProxy()) {
-      return this.http.post<Roadblock[]>(this.roadblocksUrl, {
-        sw: sw,
-        ne: ne
-      });
+      return this.http.get<Roadblock[]>(this.roadblocksUrl);
     }
     return devRoadblocks;
   }
