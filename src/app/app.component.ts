@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { interval } from 'rxjs';
-import { startWith, switchMap } from 'rxjs/operators';
 import { DisplayState } from './model/DisplayState';
 import { DisplayService } from './services/display.service';
 

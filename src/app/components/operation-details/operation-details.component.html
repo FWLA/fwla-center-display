@@ -8,7 +8,7 @@
     <p *ngIf="!!operation.location && !!operation.location.address && !!operation.location.address.town">Ort: {{operation.location.address.town}}<span *ngIf="operation.location.address.district">&nbsp;-
         {{operation.location.address.district}}</span></p>
     <p *ngIf="!!operation.place">Einsatzort: {{operation.place}}</p>
-    <app-real-estate [operation]="operation"></app-real-estate>
+    <app-real-estate [operation]="operation" *ngIf="operation.realEstate"></app-real-estate>
     <p *ngIf="!!operation.notice">Bemerkung: {{operation.notice}}</p>
   </blockquote>
 </div>

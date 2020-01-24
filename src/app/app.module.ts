@@ -8,7 +8,7 @@ import { MapComponent } from './components/map/map.component';
 import { OperationDetailsComponent } from './components/operation-details/operation-details.component';
 import { OperationComponent } from './components/operation/operation.component';
 import { RealEstateComponent } from './components/real-estate/real-estate.component';
-import { ResourcesComponent } from './components/resources/resources.component';
+import { StationsComponent } from './components/stations/stations.component';
 import { TextComponent } from './components/text/text.component';
 
 
@@ -20,7 +20,7 @@ import { TextComponent } from './components/text/text.component';
     IconsComponent,
     OperationDetailsComponent,
     RealEstateComponent,
-    ResourcesComponent,
+    StationsComponent,
     TextComponent
   ],
   imports: [

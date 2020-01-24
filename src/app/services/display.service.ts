@@ -134,9 +134,7 @@ export class DisplayService {
 
   private newState(displayState: DisplayState) {
     this.displayState = displayState;
-    if (this.lastServerVersion === null) {
-      this.lastServerVersion = displayState.serverVersion;
-    }
+    this.lastServerVersion = displayState.serverVersion;
     this.handlers.forEach(h => h.onStateChanged(displayState));
   }
 }

@@ -66,31 +66,9 @@ export const devOperationDisplayState: DisplayState = {
       'MUST 1/44-1',
       'MUSTER 1'
     ],
-    resources: [
-      {
-        id: 'id1',
-        name: 'Kdow',
-        key: 'MUST 1/10-1',
-        radio: 'Florian Musterort 1/10-1',
-        stationId: '1',
-        inService: true
-      },
-      {
-        id: 'id2',
-        name: 'TLF 16/25',
-        key: 'MUST 1/22-1',
-        radio: 'Florian Musterort 1/22-1',
-        stationId: '1',
-        inService: true
-      },
-      {
-        id: 'id3',
-        name: 'HLF 16',
-        key: 'MUST 1/44-1',
-        radio: 'Florian Musterort 1/44-1',
-        stationId: '1',
-        inService: false
-      }
+    stations: [
+      "Feuerwehr Hofheim",
+      "Feuerwehr Hüttenfeld"
     ],
     operationKey: {
       id: '630104af-da4f-4ca0-917c-e9f817095bcb',

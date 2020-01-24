@@ -1,0 +1,10 @@
+<div class="md-chips">
+  <div class="md-chip" *ngFor="let station of operation.stations">
+    <div class="md-chip-icon red">✓</div>
+    {{station}}
+  </div>
+  <div class="md-chip" *ngIf="!!operation.ambulanceCalled">
+    <div class="md-chip-icon blue">✓</div>
+    Rettungsdienst
+  </div>
+</div>
