@@ -5,7 +5,7 @@ import { RoadblocksService } from 'src/app/services/roadblocks.service';
 import { Coordinate } from '../../model/Coordinate';
 import { Operation } from '../../model/Operation';
 
-const padding: leaflet.PointExpression = [10, 10];
+const padding: leaflet.PointExpression = [20, 20];
 const redMarkerIcon: leaflet.Icon = leaflet.icon({
   iconSize: [25, 41],
   iconAnchor: [13, 41],
