@@ -19,6 +19,10 @@ export class StatusComponent implements OnInit, DisplayStateChangedHandler {
   ngOnInit() {
   }
 
+  onState(_displayState: DisplayState) {
+    this.available = true;
+  }
+
   onStateChanged(_displayState: DisplayState) {
     this.available = true;
   }

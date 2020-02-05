@@ -100,6 +100,12 @@ export class DisplayService {
     this.lastResponse = response;
     var displayState = response.body;
 
+    this.handlers.forEach(h => {
+      if (h.onState) {
+        h.onState(displayState);
+      }
+    });
+
     if (!this.displayState || this.displayState === null) {
       this.newState(displayState);
       return;
