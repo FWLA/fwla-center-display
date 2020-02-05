@@ -9,6 +9,7 @@ import { OperationDetailsComponent } from './components/operation-details/operat
 import { OperationComponent } from './components/operation/operation.component';
 import { RealEstateComponent } from './components/real-estate/real-estate.component';
 import { StationsComponent } from './components/stations/stations.component';
+import { StatusComponent } from './components/status/status.component';
 import { TextComponent } from './components/text/text.component';
 
 
@@ -21,7 +22,8 @@ import { TextComponent } from './components/text/text.component';
     OperationDetailsComponent,
     RealEstateComponent,
     StationsComponent,
-    TextComponent
+    TextComponent,
+    StatusComponent
   ],
   imports: [
     BrowserModule,
