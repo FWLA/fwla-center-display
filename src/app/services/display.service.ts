@@ -1,7 +1,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
 import { interval, Observable, of } from 'rxjs';
-import { catchError, map, startWith, switchMap } from 'rxjs/operators';
+import { startWith, switchMap } from 'rxjs/operators';
 import { DisplayState } from '../model/DisplayState';
 import { isProxy } from '../util/IsProxy';
 import { DisplayStateChangedHandler } from './DisplayStateChangedHandler';
@@ -15,7 +15,6 @@ export class DisplayService {
   private displayUrl = '/api/v1/display';
   private displayState: DisplayState;
   private lastServerVersion: string;
-  private lastResponse: HttpResponse<DisplayState>;
   private handlers: DisplayStateChangedHandler[] = [];
 
   constructor(private http: HttpClient) {
@@ -24,14 +23,15 @@ export class DisplayService {
     let pathSegments = path.split('/');
     let stationId = pathSegments.slice(-1).pop();
 
-    interval(5000)
-      .pipe(
-        startWith(0),
-        switchMap(() => this.getDisplay(stationId))
-      )
-      .subscribe(res => this.handleRetValue(res), error => {
-        console.log(error);
-      });
+    interval(5000).pipe(
+      startWith(0),
+      switchMap(() => {
+        this.requestDisplayState(stationId);
+        return of('null');
+      })
+    ).subscribe();
+
+    // interval(5000).subscribe(() => this.requestDisplayState(stationId));
   }
 
   registerHandler(handler: DisplayStateChangedHandler) {
@@ -45,72 +45,84 @@ export class DisplayService {
     }
   }
 
-  private getDisplay(stationId: string): Observable<HttpResponse<DisplayState>> {
+  private requestDisplayState(stationId: string) {
+    console.log(`Requesting state for ${stationId}`);
+    var observable : Observable<HttpResponse<DisplayState>>;
     if (!isDevMode() || isProxy()) {
-      return this.http.get<DisplayState>(this.displayUrl + '/' + stationId, {
-        observe: 'response',
-      }).pipe(
-        catchError(this.handleError())
-      ).pipe(map(o => {
-        return <HttpResponse<DisplayState>>o;
-      }));
-    }
-
-    return roundRobin();
-  }
-
-  /**
-   * Handle Http operation that failed.
-   * Let the app continue.
-   * @param operation - name of the operation that failed
-   * @param result - optional value to return as the observable result
-   */
-  private handleError() {
-    return (error: any): Observable<HttpResponse<DisplayState>> => {
-
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      this.handlers.forEach(h => {
-        if (h.onBackendError) {
-          h.onBackendError('Unknown error occured. ' + error);
-        }
+      observable = this.http.get<DisplayState>(this.displayUrl + '/' + stationId, {
+        observe: 'response'
       });
-
-      // Let the app keep running by returning last valid result.
-      return of(this.lastResponse);
-    };
-  }
-
-  private handleRetValue(response: HttpResponse<DisplayState>) {
-    // initial
-    if (!response) {
-      return;
+    } else {
+      observable = roundRobin();
     }
 
-    if (200 !== response.status) {
+    this.handleObservable(observable);
+  }
+
+  private handleObservable(observable: Observable<HttpResponse<DisplayState>>) {
+    console.debug('Handling observable.');
+    observable.subscribe(httpResponse => {
+      console.debug('Received http response', httpResponse);
+      this.handleHttpResponse(httpResponse);
+    }, error => {
+      console.error('Received error.', error);
+      this.handleError(error);
+    });
+  }
+
+  private handleHttpResponse(httpResponse: HttpResponse<DisplayState>) {
+    if (httpResponse.status !== 200) {
+      console.error('Http Status code is not 200.', httpResponse);
+      this.handleError({
+        status: httpResponse.status,
+        error: httpResponse.body
+      });
+    }
+
+    console.debug('Received 200 http response.');
+    this.handleDisplayState(httpResponse.body);
+  }
+
+  private handleError(error: any) {
+    if (error.error instanceof ErrorEvent) {
       this.handlers.forEach(h => {
-        if (h.onBackendError) {
-          h.onBackendError('Bad http status code.');
+        if (h.onClientError) {
+          h.onClientError(error.error);
         }
       });
       return;
     }
+    if (error.status) {
+      this.handlers.forEach(h => {
+        if (h.onBackendError) {
+          h.onBackendError(error.status, error.error);
+        }
+      });
+      return;
+    }
 
-    this.lastResponse = response;
-    var displayState = response.body;
-
+    // back off
     this.handlers.forEach(h => {
-      if (h.onState) {
-        h.onState(displayState);
+      if (h.onClientError) {
+        h.onClientError(error);
+      }
+    });
+  }
+
+  private handleDisplayState(displayState: DisplayState) {
+    this.handlers.forEach(h => {
+      if (h.onSuccess) {
+        h.onSuccess(displayState);
       }
     });
 
+    // initial display state after reload / new load
     if (!this.displayState || this.displayState === null) {
       this.newState(displayState);
       return;
     }
 
+    // check for changed server version to force window reload
     if (this.lastServerVersion !== displayState.serverVersion) {
       window.location.reload();
     }
@@ -141,6 +153,10 @@ export class DisplayService {
   private newState(displayState: DisplayState) {
     this.displayState = displayState;
     this.lastServerVersion = displayState.serverVersion;
-    this.handlers.forEach(h => h.onStateChanged(displayState));
+    this.handlers.forEach(h => {
+      if (h.onStateChanged) {
+        h.onStateChanged(displayState);
+      }
+    });
   }
 }
