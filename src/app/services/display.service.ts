@@ -1,11 +1,13 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
 import { interval, Observable, of } from 'rxjs';
-import { startWith, switchMap } from 'rxjs/operators';
+import { startWith, switchMap, timeout } from 'rxjs/operators';
 import { DisplayState } from '../model/DisplayState';
 import { isProxy } from '../util/IsProxy';
 import { DisplayStateChangedHandler } from './DisplayStateChangedHandler';
 import { roundRobin } from './sample-display-states';
+
+const rate = 5000;
 
 @Injectable({
   providedIn: 'root'
@@ -23,15 +25,13 @@ export class DisplayService {
     let pathSegments = path.split('/');
     let stationId = pathSegments.slice(-1).pop();
 
-    interval(5000).pipe(
+    interval(rate).pipe(
       startWith(0),
       switchMap(() => {
         this.requestDisplayState(stationId);
         return of('null');
       })
     ).subscribe();
-
-    // interval(5000).subscribe(() => this.requestDisplayState(stationId));
   }
 
   registerHandler(handler: DisplayStateChangedHandler) {
@@ -51,7 +51,7 @@ export class DisplayService {
     if (!isDevMode() || isProxy()) {
       observable = this.http.get<DisplayState>(this.displayUrl + '/' + stationId, {
         observe: 'response'
-      });
+      }).pipe(timeout(rate));
     } else {
       observable = roundRobin();
     }
