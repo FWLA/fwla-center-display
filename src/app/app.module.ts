@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { AppComponent } from './app.component';
@@ -11,7 +11,10 @@ import { RealEstateComponent } from './components/real-estate/real-estate.compon
 import { StationsComponent } from './components/stations/stations.component';
 import { StatusComponent } from './components/status/status.component';
 import { TextComponent } from './components/text/text.component';
+import { registerLocaleData } from '@angular/common';
+import localeDe from '@angular/common/locales/de';
 
+registerLocaleData(localeDe);
 
 @NgModule({
   declarations: [
@@ -30,7 +33,9 @@ import { TextComponent } from './components/text/text.component';
     HttpClientModule,
     LeafletModule.forRoot(),
   ],
-  providers: [],
+  providers: [
+    { provide: LOCALE_ID, useValue: "de-DE" },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

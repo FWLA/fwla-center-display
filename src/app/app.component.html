@@ -5,7 +5,15 @@
 </div>
 
 <ng-template #screensaver>
-  <div id="screensaver"></div>
+  <div id="screensaver">
+    <div id="clock">
+      {{ clock | async | date:'EEEE, dd.MM.yyyy' }}
+      <br /><br />
+      <div id="time">
+        {{ clock | async | date:'HH:mm:ss' }}
+      </div>
+    </div>
+  </div>
 </ng-template>
 
 <app-status></app-status>
