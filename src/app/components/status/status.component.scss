@@ -2,6 +2,7 @@
   position: absolute;
   bottom: 20px;
   right: 20px;
+  color: #999;
 
   .status {
     width: 50px;
@@ -9,6 +10,8 @@
     -moz-border-radius: 25px;
     -webkit-border-radius: 25px;
     border-radius: 25px;
+    float: right;
+    margin-left: 20px;
   }
 
   .status-up {
