@@ -1,6 +1,6 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
-import { interval, Observable, of } from 'rxjs';
+import { interval, Observable, of, Subscriber, Subscription } from 'rxjs';
 import { startWith, switchMap, timeout } from 'rxjs/operators';
 import { DisplayState } from '../model/DisplayState';
 import { isProxy } from '../util/IsProxy';
@@ -8,16 +8,17 @@ import { DisplayStateChangedHandler } from './DisplayStateChangedHandler';
 import { roundRobin } from './sample-display-states';
 
 const rate = 5000;
+const displayUrl = '/api/v1/display';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DisplayService {
 
-  private displayUrl = '/api/v1/display';
   private displayState: DisplayState;
   private lastServerVersion: string;
   private handlers: DisplayStateChangedHandler[] = [];
+  private subscription: Subscription;
 
   constructor(private http: HttpClient) {
 
@@ -25,7 +26,7 @@ export class DisplayService {
     let pathSegments = path.split('/');
     let stationId = pathSegments.slice(-1).pop();
 
-    interval(rate).pipe(
+    this.subscription = interval(rate).pipe(
       startWith(0),
       switchMap(() => {
         this.requestDisplayState(stationId);
@@ -47,9 +48,9 @@ export class DisplayService {
 
   private requestDisplayState(stationId: string) {
     console.log(`Requesting state for ${stationId}`);
-    var observable : Observable<HttpResponse<DisplayState>>;
+    var observable: Observable<HttpResponse<DisplayState>>;
     if (!isDevMode() || isProxy()) {
-      observable = this.http.get<DisplayState>(this.displayUrl + '/' + stationId, {
+      observable = this.http.get<DisplayState>(displayUrl + '/' + stationId, {
         observe: 'response'
       }).pipe(timeout(rate));
     } else {
@@ -124,7 +125,11 @@ export class DisplayService {
 
     // check for changed server version to force window reload
     if (this.lastServerVersion !== displayState.serverVersion) {
-      window.location.reload();
+      this.subscription.unsubscribe();
+      // reload page after 20s of wait time
+      setTimeout(() => {
+        window.location.reload(true);
+      }, 20000);
     }
 
     // when state changes
